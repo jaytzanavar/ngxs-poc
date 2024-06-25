@@ -1,0 +1,63 @@
+<mat-card>
+  <mat-card-title>Todo Items</mat-card-title>
+  <!-- Add new item -->
+  <div class="flex items-center">
+    <mat-form-field class="mr-4" appearance="fill">
+      <mat-label>Item name</mat-label>
+      <input matInput autocomplete="off" [(ngModel)]="newItemName" />
+    </mat-form-field>
+    <ng-container *ngIf="!updateItemB; else update">
+      <button
+        type="button"
+        mat-raised-button
+        color="primary"
+        (click)="addItem()"
+      >
+        Add
+      </button>
+    </ng-container>
+    <ng-template #update>
+      <button
+        type="button"
+        mat-raised-button
+        color="primary"
+        (click)="confirmItemUpdate(updateItemB!)"
+      >
+        Update
+      </button>
+    </ng-template>
+  </div>
+  <!-- /Add new item -->
+
+  <!-- Todo items -->
+  <mat-list role="list">
+    <mat-list-item
+      [class.is-done]="item.isDone"
+      role="listitem"
+      *ngFor="let item of todoItems$ | async; trackBy: trackById"
+    >
+      <div class="flex items-center">
+        <mat-checkbox [checked]="item.isDone" (change)="toggleItem(item)">
+          {{ item.title }}
+        </mat-checkbox>
+      </div>
+      <button
+        type="button"
+        mat-raised-button
+        color="primary"
+        (click)="updateItem(item)"
+      >
+        Update
+      </button>
+      <button
+        type="button"
+        mat-raised-button
+        color="primary"
+        (click)="deleteItem(item.id)"
+      >
+        Delete
+      </button>
+    </mat-list-item>
+  </mat-list>
+  <!-- /Todo items -->
+</mat-card>
